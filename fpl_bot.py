@@ -4,7 +4,6 @@ import praw
 import requests
 import time
 import os
-from bs4 import BeautifulSoup
 from config_skel import *
 header = {'x-requested-with': 'XMLHttpRequest'}
 URL = "http://www.fplstatistics.co.uk/Home/AjaxPricesHandler?sEcho=2&iColumns=12&sColumns=%2Cweb_name%2CPClubName%2CPosition%2CStatus%2CpercentSelected%2CCost%2CPriceChangesinGW%2Cunlockdt%2CNTIDelta%2CNTIPERCENTNJD%2CPId&mDataProp_0=0&sSearch_0=&bRegex_0=false&bSearchable_0=true&bSortable_0=false"
@@ -21,18 +20,19 @@ def mainFunction():
 	r = praw.Reddit(user_agent=user_agent) # reddit instance
 	r.login(REDDIT_USERNAME, REDDIT_PASS) #login
 
-	subreddit = r.get_subreddit('fantasypl') #FantasyPL subreddit
+	#subreddit = r.get_subreddit('fantasypl') #FantasyPL subreddit
 
 	risers = getRisers()
 	fallers = getFallers()
-	print risers
-	print fallers
+	#print risers
+	#print fallers
 
 	if (risers and fallers):
+		today = time.strftime("%d %B %Y")
 		message = generateMessage(risers, fallers)
-		print message
-		r.send_message('totallyjeffstrongman', 'PRAW Thread', message)
-		print "Message Sent!"
+		title = " Fantasy Premier League Price Rise/Fall Predictions (" + today + ")"
+		r.submit('arinze', title, text = message)
+		print "Post Sent!"
 		return True
 	else:
 		return False
@@ -58,16 +58,6 @@ def generateMessage(risers, fallers):
 	return message
 
 
-
-
-
-
-
-
-
-
-
-
 def genTable(data):
 	if not data:
 		message = "\r\n *None for today*\r\n"
@@ -86,8 +76,6 @@ def genTable(data):
 	return message
 
 
-
-	
 def getRisers():
 	riseUrl = URL + "&iDisplayStart=0&iDisplayLength=50"
 	try:
@@ -139,9 +127,9 @@ def getFallers():
 		if (float(val) <= -100):
 			#high prob fall
 			high.append(elem)
-		elif (float(val) <= -90):
+		elif (float(val) <= -95):
 			med.append(elem)
-		elif (float(val) <= -80):
+		elif (float(val) <= -85):
 			low.append(elem)
 		else:
 			break
