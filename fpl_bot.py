@@ -4,21 +4,21 @@ import praw
 import requests
 import time
 import os
-from config_skel import *
+#from config_skel import *
 header = {'x-requested-with': 'XMLHttpRequest'}
 URL = "http://www.fplstatistics.co.uk/Home/AjaxPricesHandler?sEcho=2&iColumns=12&sColumns=%2Cweb_name%2CPClubName%2CPosition%2CStatus%2CpercentSelected%2CCost%2CPriceChangesinGW%2Cunlockdt%2CNTIDelta%2CNTIPERCENTNJD%2CPId&mDataProp_0=0&sSearch_0=&bRegex_0=false&bSearchable_0=true&bSortable_0=false"
 #&iDisplayStart=1&iDisplayLength=50
 
 def mainFunction(): 
-	if not os.path.isfile("config_skel.py"):
-		print "You must create a config file with your username and password."
-		print "Please see config_file.py"
-		exit(1)
+	# if not os.path.isfile("config_skel.py"):
+	# 	print "You must create a config file with your username and password."
+	# 	print "Please see config_file.py"
+	# 	exit(1)
 
-	user_agent = "houseOfBalloons 1.0" #user_agent
+	user_agent = "houseOfBalloons 1.1" #user_agent
 
 	r = praw.Reddit(user_agent=user_agent) # reddit instance
-	r.login(REDDIT_USERNAME, REDDIT_PASS) #login
+	r.login(os.environ['REDDIT_USERNAME'], os.environ['REDDIT_PASSWORD']) #login
 
 	#subreddit = r.get_subreddit('fantasypl') #FantasyPL subreddit
 
@@ -137,8 +137,7 @@ def getFallers():
 	return retValue
 
 
-if __name__ == "__main__":
-	mainFunction()
+mainFunction()
 
 
 
