@@ -21,11 +21,12 @@ def mainFunction():
 	if (risers and fallers):
 		today = time.strftime("%d %B %Y")
 		message = generateMessage(risers, fallers)
-		title = " Fantasy Premier League Price Rise/Fall Predictions (" + today + ")"
-		r.submit('arinze', title, text = message)
+		title = " Fantasy Premier League Price Change Predictions (" + today + ")"
+		r.submit('fantasypl', title, text = message)
 		print "Post Sent!"
 		return True
 	else:
+		print "Risers or fallers was null"
 		return False
 
 def generateMessage(risers, fallers):
@@ -89,11 +90,13 @@ def getRisers():
 	try:
 		output = requests.get(riseUrl, headers = header)
 	except Exception, e:
+		print "Risers wasn't downloaded"
 		return False
 	result = output.json()
 	try:
 		result = result["aaData"]
 	except Exception, e:
+		print "No aaData for risers was found"
 		return False
 	high = []
 	med = []
@@ -120,11 +123,13 @@ def getFallers():
 	try:
 		output = requests.get(fallUrl, headers = header)
 	except Exception, e:
+		print "Fallers wasn't downloaded"
 		return False
 	result = output.json()
 	try:
 		result = result["aaData"]
 	except Exception, e:
+		print "No aaData for fallers was found"
 		return False
 	high = []
 	med = []
