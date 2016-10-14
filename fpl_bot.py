@@ -4,16 +4,11 @@ import praw
 import requests
 import time
 import os
-#from config_skel import *
 header = {'x-requested-with': 'XMLHttpRequest'}
 URL = "http://www.fplstatistics.co.uk/Home/AjaxPricesHandler?sEcho=2&iColumns=12&sColumns=%2Cweb_name%2CPClubName%2CPosition%2CStatus%2CpercentSelected%2CCost%2CPriceChangesinGW%2Cunlockdt%2CNTIDelta%2CNTIPERCENTNJD%2CPId&mDataProp_0=0&sSearch_0=&bRegex_0=false&bSearchable_0=true&bSortable_0=false"
 #&iDisplayStart=1&iDisplayLength=50
 
 def mainFunction(): 
-	# if not os.path.isfile("config_skel.py"):
-	# 	print "You must create a config file with your username and password."
-	# 	print "Please see config_file.py"
-	# 	exit(1)
 
 	user_agent = "houseOfBalloons 1.1" #user_agent
 
@@ -24,8 +19,7 @@ def mainFunction():
 
 	risers = getRisers()
 	fallers = getFallers()
-	#print risers
-	#print fallers
+
 
 	if (risers and fallers):
 		today = time.strftime("%d %B %Y")
@@ -39,22 +33,33 @@ def mainFunction():
 
 def generateMessage(risers, fallers):
 	today = time.strftime("%d %B %Y")
+	newLine = "\r\n\r\n&nbsp;\r\n\r\n"
+	hr = "\r\n\r\n---\r\n\r\n"
+	
+	message += "**PRICE RISE PREDICTIONS** \r\n"
 
-	message = "### ** Fantasy Premier League Price Rise/Fall Predictions (" + today + ")\r\n**"
-	message +=  "\r\n\t\t ###Highly Likely Risers\r\n"
+	
+	message =  "**Highly Likely Risers** \r\n"
 	message += genTable(risers['high'])
-	message +=  "\r\n\t\t ### Likely Risers\r\n"
+	message += newLine
+	message +=  "**Likely Risers** \r\n"
 	message += genTable(risers['med'])
-	message +=  "\r\n\t\t ### Possible Risers\r\n"
+	message += newLine
+	message +=  "**Possible Risers** \r\n"
 	message += genTable(risers['low'])
+	message += newLine
 
-	message +=  "\r\n\n ### Highly Likely Fallers\r\n"
+	message += hr
+	message += "**PRICE FALL PREDICTIONS** \r\n"
+
+	message +=  "\r\n **Highly Likely Fallers** \r\n"
 	message += genTable(fallers['high'])
-	message +=  "\r\n\t\t ### Likely Fallers\r\n"
+	message +=  "\r\n **Likely Fallers** \r\n"
 	message += genTable(fallers['med'])
-	message +=  "\r\n\t\t ### Possible Fallers\r\n"
+	message +=  "\r\n **Possible Fallers** \r\n"
 	message += genTable(fallers['low'])
 	message += "\r\n\r\n - Data Source: www.fplstatistics.co.uk  \r\n - I am a bot. Message /u/trent_9002 for any criticism/suggestions."
+
 	return message
 
 
