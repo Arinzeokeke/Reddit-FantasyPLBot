@@ -4,4 +4,4 @@
 # Fill in the values and rename this file to config_bot.py
 
 REDDIT_USERNAME = "moot"  # YOUR USERNAME as string
-REDDIT_PASS = '1234'  # YOUR PASSWORD as string
+REDDIT_PASS = 'moot'  # YOUR PASSWORD as string

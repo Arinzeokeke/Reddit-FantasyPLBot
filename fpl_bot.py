@@ -136,7 +136,9 @@ def getFallers():
 	retValue = {"high": high, "med": med, "low": low}
 	return retValue
 
-mainFunction()
+
+if __name__ == "__main__":
+	mainFunction()
 
 
 
