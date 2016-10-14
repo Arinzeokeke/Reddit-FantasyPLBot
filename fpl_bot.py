@@ -14,9 +14,6 @@ def mainFunction():
 
 	r = praw.Reddit(user_agent=user_agent) # reddit instance
 	r.login(os.environ['REDDIT_USERNAME'], os.environ['REDDIT_PASSWORD']) #login
-
-	#subreddit = r.get_subreddit('fantasypl') #FantasyPL subreddit
-
 	risers = getRisers()
 	fallers = getFallers()
 
@@ -35,11 +32,12 @@ def generateMessage(risers, fallers):
 	today = time.strftime("%d %B %Y")
 	newLine = "\r\n\r\n&nbsp;\r\n\r\n"
 	hr = "\r\n\r\n---\r\n\r\n"
-	
-	message += "**PRICE RISE PREDICTIONS** \r\n"
+
+	message = "**PRICE RISE PREDICTIONS** \r\n"
+	message += newLine
 
 	
-	message =  "**Highly Likely Risers** \r\n"
+	message +=  "**Highly Likely Risers** \r\n"
 	message += genTable(risers['high'])
 	message += newLine
 	message +=  "**Likely Risers** \r\n"
@@ -51,14 +49,19 @@ def generateMessage(risers, fallers):
 
 	message += hr
 	message += "**PRICE FALL PREDICTIONS** \r\n"
+	message += newLine
 
 	message +=  "\r\n **Highly Likely Fallers** \r\n"
 	message += genTable(fallers['high'])
-	message +=  "\r\n **Likely Fallers** \r\n"
+	message += newLine
+	message +=  "**Likely Fallers** \r\n"
 	message += genTable(fallers['med'])
-	message +=  "\r\n **Possible Fallers** \r\n"
+	message += newLine
+	message +=  "**Possible Fallers** \r\n"
 	message += genTable(fallers['low'])
-	message += "\r\n\r\n - Data Source: www.fplstatistics.co.uk  \r\n - I am a bot. Message /u/trent_9002 for any criticism/suggestions."
+	message += newLine
+	message += hr
+	message += "- Data Source: www.fplstatistics.co.uk  \r\n - I am a bot. Message /u/trent_9002 for any criticism/suggestions."
 
 	return message
 
